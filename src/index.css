@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.my-btn {
+  @apply btn w-full bg-orange-500 text-white hover:text-orange-500 hover:bg-white hover:border-amber-500 hover:border-1 font-semibold  hover:scale-105  transition-transform duration-200;
+}
