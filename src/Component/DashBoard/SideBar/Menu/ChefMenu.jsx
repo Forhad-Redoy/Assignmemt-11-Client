@@ -10,7 +10,7 @@ const ChefMenu = () => {
         label='Add Meal'
         address='add-meal'
       />
-      <MenuItem icon={MdHomeWork} label='My Inventory' address='my-inventory' />
+      <MenuItem icon={MdHomeWork} label='My Meals' address='my-meals' />
       <MenuItem
         icon={MdOutlineManageHistory}
         label='Manage Orders'

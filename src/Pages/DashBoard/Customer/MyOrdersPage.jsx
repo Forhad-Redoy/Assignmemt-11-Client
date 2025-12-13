@@ -4,14 +4,14 @@ import useAuth from "../../../Hooks/useAuth";
 import axios from "axios";
 import LoadingSpinner from "../../../Component/LoadingSpinner";
 import Container from "../../../Component/Shared/Container";
-import CustomerOrderDataCard from "../../../Component/DashBoard/Cards/CustomerOrderDataCard";
+import CustomerOrderDataCard from "../../../Component/Cards/CustomerOrderDataCard";
 // import CustomerOrderDataCard from "../../../Component/DashBoard/TableRows/CustomerOrderDataRow";
 // import useAuth from your auth hook
 
 
 const fetchUserOrders = async (email) => {
   const res = await axios.get(
-    `${import.meta.env.VITE_API_URL}/orders/user/${email}`
+    `${import.meta.env.VITE_API_URL}/my-orders/user/${email}`
   );
   return res.data;
 };

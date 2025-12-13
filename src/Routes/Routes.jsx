@@ -19,6 +19,7 @@ import Order from "../Pages/Order";
 import Payment from "../Pages/DashBoard/Payment/Payment";
 import PaymentSuccessPage from "../Pages/DashBoard/Payment/PaymentSuccessPage";
 import MyOrders from "../Pages/DashBoard/Customer/MyOrdersPage";
+import MyMeals from "../Pages/DashBoard/Chef/MyMeals";
 
 
 export const router = createBrowserRouter([
@@ -55,14 +56,6 @@ export const router = createBrowserRouter([
         path: "/payment-success",
         element: <PaymentSuccessPage />,
       },
-      // {
-      //   path: 'payment/:foodId',
-      //   element: (
-      //     <PrivateRoute>
-      //       <Payment />
-      //     </PrivateRoute>
-      //   ),
-      // },
     ],
   },
   { path: "/login", element: <Login /> },
@@ -93,10 +86,10 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: "my-inventory",
+        path: "my-meals",
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <MyMeals />
           </PrivateRoute>
         ),
       },

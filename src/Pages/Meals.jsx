@@ -1,9 +1,10 @@
 import React from "react";
 import Container from "../Component/Shared/Container";
-import MealCard from "../Component/MealCard";
+// import MealCard from "../Component/MealCard";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Component/LoadingSpinner";
+import MealCard from "../Component/Cards/MealCard";
 
 const Meals = () => {
   const { data: meals = [], isLoading } = useQuery({
