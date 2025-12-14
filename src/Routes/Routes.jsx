@@ -20,7 +20,7 @@ import Payment from "../Pages/DashBoard/Payment/Payment";
 import PaymentSuccessPage from "../Pages/DashBoard/Payment/PaymentSuccessPage";
 import MyOrders from "../Pages/DashBoard/Customer/MyOrdersPage";
 import MyMeals from "../Pages/DashBoard/Chef/MyMeals";
-
+import UpdateMeal from "../Component/Form/UpdateMeal ";
 
 export const router = createBrowserRouter([
   {
@@ -90,6 +90,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyMeals />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "update-meal/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateMeal />
           </PrivateRoute>
         ),
       },

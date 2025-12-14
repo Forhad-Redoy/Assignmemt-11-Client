@@ -37,14 +37,14 @@ const MyMealCard = ({ meal, onDelete }) => {
         <div className="flex justify-between gap-3 pt-3">
           <button
             onClick={() => onDelete(_id)}
-            className="btn btn-error btn-sm"
+            className="btn btn-error btn-sm bg-red-500 hover:bg-red-600 text-white"
           >
             Delete
           </button>
 
           <Link
             to={`/dashboard/update-meal/${_id}`}
-            className="btn btn-warning btn-sm"
+            className="btn btn-warning btn-sm bg-green-500 hover:bg-green-600 text-white"
           >
             Update
           </Link>

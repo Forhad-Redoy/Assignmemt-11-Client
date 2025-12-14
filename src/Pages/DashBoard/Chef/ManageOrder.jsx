@@ -1,6 +1,6 @@
 
 
-import ChefOrderDataRow from "../../../Component/DashBoard/TableRows/ChefOrderDataRow"
+// import ChefOrderDataRow from "../../../Component/DashBoard/TableRows/ChefOrderDataRow"
 
 const ManageOrders = () => {
   return (
@@ -58,7 +58,7 @@ const ManageOrders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <ChefOrderDataRow />
+                  {/* <ChefOrderDataRow /> */}
                 </tbody>
               </table>
             </div>
