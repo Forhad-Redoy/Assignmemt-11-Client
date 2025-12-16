@@ -6,7 +6,7 @@ import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import useAuth from "../Hooks/useAuth";
 // import axios from "axios";
-import { imageUpload } from "../utils";
+import { imageUpload, saveOrUpdateUser } from "../utils";
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
     useAuth();
@@ -36,9 +36,10 @@ const SignUp = () => {
       //  const imageURL = data?.data?.data?.display_url
       //2. User Registration
       const result = await createUser(email, password);
+      await saveOrUpdateUser({ name, email, image: imageURL });
 
       //3. Save username & profile photo
-      await updateUserProfile(name, imageURL,address);
+      await updateUserProfile(name, imageURL, address);
       console.log(result);
 
       navigate(from, { replace: true });
@@ -53,8 +54,13 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
 
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
       navigate(from, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {

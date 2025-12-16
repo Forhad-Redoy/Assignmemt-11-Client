@@ -6,6 +6,7 @@ import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../Component/LoadingSpinner";
 import useAuth from "../hooks/useAuth";
+import { saveOrUpdateUser } from "../utils";
 
 const Login = () => {
   const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth();
@@ -26,7 +27,12 @@ const Login = () => {
   // Form Submit Handler
   const onSubmit = async (data) => {
     try {
-      await signIn(data.email, data.password);
+      const { user } = await signIn(data.email, data.password);
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
       toast.success("Login Successful");
       navigate(from, { replace: true });
     } catch (err) {
@@ -38,7 +44,13 @@ const Login = () => {
   // Google Login
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
       toast.success("Login Successful");
       navigate(from, { replace: true });
     } catch (err) {

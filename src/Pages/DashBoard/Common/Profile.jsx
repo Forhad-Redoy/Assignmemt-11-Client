@@ -1,61 +1,105 @@
-
-
-
-import useAuth from "../../../hooks/useAuth"
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../../../Component/LoadingSpinner";
+import cover from "../../../assets/chef.png";
 
 const Profile = () => {
-  const { user } = useAuth()
+  const { user } = useAuth();
+
+  const { data: dbUser, isLoading, } = useQuery({
+    queryKey: ["profileUser", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${user.email}`
+      );
+      return data;
+    },
+  });
+
+  const sendRequest = async (type) => {
+  try {
+    await axios.post(`${import.meta.env.VITE_API_URL}/role-requests`, {
+      userName: user?.displayName || dbUser?.name,
+      userEmail: user?.email,
+      requestType: type,
+    });
+    toast.success("Request sent (pending)");
+  } catch (err) {
+    toast.error(err?.response?.data?.message || err.message);
+  }
+};
+
+
+  if (isLoading) return <LoadingSpinner/>;
+
+  const role = dbUser?.role || "user";
 
   return (
-    <div className='flex justify-center items-center h-screen'>
-      <div className='bg-white shadow-lg rounded-2xl md:w-4/5 lg:w-3/5'>
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+      <div className="bg-white shadow-lg rounded-2xl w-full max-w-3xl overflow-hidden">
         <img
-          alt='cover photo'
-          src=''
-          className='w-full mb-4 rounded-t-lg h-56'
+          alt="cover"
+          src={cover}
+          className="pl-20 w-fit h-50 object-cover"
         />
-        <div className='flex flex-col items-center justify-center p-4 -mt-16'>
-          <a href='#' className='relative block'>
-            <img
-              alt='profile'
-              src={user?.photoURL}
-              className='mx-auto object-cover rounded-full h-24 w-24  border-2 border-white '
-            />
-          </a>
 
-          <p className='p-2 px-4 text-xs text-white bg-lime-500 rounded-full'>
-            Customer
-          </p>
-          <p className='mt-2 text-xl font-medium text-gray-800 '>
-            User Id: {user?.uid}
-          </p>
-          <div className='w-full p-2 mt-4 rounded-lg'>
-            <div className='flex flex-wrap items-center justify-between text-sm text-gray-600 '>
-              <p className='flex flex-col'>
-                Name
-                <span className='font-bold text-gray-600 '>
-                  {user?.displayName}
-                </span>
-              </p>
-              <p className='flex flex-col'>
-                Email
-                <span className='font-bold text-gray-600 '>{user?.email}</span>
-              </p>
+        <div className="flex flex-col items-center p-6 -mt-16">
+          <img
+            alt="profile"
+            src={dbUser?.image || user?.photoURL}
+            className="h-28 w-28 rounded-full border-4 border-white object-cover"
+          />
 
-              <div>
-                <button className='bg-lime-500  px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-800 block mb-1'>
-                  Update Profile
-                </button>
-                <button className='bg-lime-500 px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-800'>
-                  Change Password
-                </button>
-              </div>
-            </div>
+          <p className="mt-3 px-4 py-1 text-xs text-white bg-orange-500 rounded-full">
+            {role}
+          </p>
+
+          <div className="w-full mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Info label="User Name" value={dbUser?.name || user?.displayName} />
+            <Info label="User Email" value={dbUser?.email || user?.email} />
+            <Info label="User Address" value={dbUser?.address || "N/A"} />
+            <Info label="User Status" value={dbUser?.status || "active"} />
+
+            {role === "chef" && (
+              <Info label="Chef Id" value={dbUser?.chefId || "Pending / N/A"} />
+            )}
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-3 justify-center">
+            {/* Hide Be a Chef if role is chef */}
+            {role !== "chef" && role !== "admin" && (
+              <button
+                onClick={() => sendRequest("chef")}
+                className="px-5 py-2 rounded-lg bg-lime-600 text-white hover:bg-lime-700"
+              >
+                Be a Chef
+              </button>
+            )}
+
+            {/* Hide both if admin */}
+            {role !== "admin" && (
+              <button
+                onClick={() => sendRequest("admin")}
+                className="px-5 py-2 rounded-lg bg-sky-600 text-white hover:bg-sky-700"
+              >
+                Be an Admin
+              </button>
+            )}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+const Info = ({ label, value }) => (
+  <div className="bg-gray-100 rounded-xl p-4">
+    <p className="text-xs text-gray-500">{label}</p>
+    <p className="text-sm font-semibold text-gray-800 break-words">{value}</p>
+  </div>
+);
+
+export default Profile;
