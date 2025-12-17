@@ -5,6 +5,8 @@ import useAuth from "../hooks/useAuth";
 import LoadingSpinner from "../Component/LoadingSpinner";
 import Container from "../Component/Shared/Container";
 import Button from "../Component/Shared/Button";
+import ReviewSection from "../Component/ReviewSection";
+import FavoriteButton from "../Component/FavoriteButton";
 
 const MealDetails = () => {
   const { id } = useParams();
@@ -101,6 +103,8 @@ const MealDetails = () => {
           </div>
         </div>
       </div>
+      <FavoriteButton meal={meal}/>
+      <ReviewSection meal={meal}/>
     </Container>
   );
 };

@@ -21,6 +21,8 @@ import PaymentSuccessPage from "../Pages/DashBoard/Payment/PaymentSuccessPage";
 import MyOrders from "../Pages/DashBoard/Customer/MyOrdersPage";
 import MyMeals from "../Pages/DashBoard/Chef/MyMeals";
 import UpdateMeal from "../Component/Form/UpdateMeal ";
+import MyReviews from "../Pages/DashBoard/Customer/MyReviews";
+import FavoriteMeals from "../Pages/DashBoard/Customer/MyFavoriteMeals";
 
 export const router = createBrowserRouter([
   {
@@ -125,6 +127,23 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "my-reviews",
+        element: (
+          <PrivateRoute>
+            <MyReviews />
+          </PrivateRoute>
+        ),
+      },
+      {
+         path: "my-favorite",
+        element: (
+          <PrivateRoute>
+            <FavoriteMeals />
+          </PrivateRoute>
+        ),
+      },
+
       {
         path: "manage-orders",
         element: <ManageOrders />,

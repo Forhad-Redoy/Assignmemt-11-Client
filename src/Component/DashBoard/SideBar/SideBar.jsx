@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import useAuth from '../../../Hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 import logo from "../../../assets/chef.png";
 // Icons
 import { GrLogout } from 'react-icons/gr'
@@ -15,6 +15,7 @@ import MenuItem from './Menu/MenuItem';
 import CustomerMenu from './Menu/CustomerMenu';
 import ChefMenu from './Menu/ChefMenu';
 import AdminMenu from './Menu/AdminMenu';
+
 
 
 const Sidebar = () => {
