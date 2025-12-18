@@ -23,6 +23,7 @@ import MyMeals from "../Pages/DashBoard/Chef/MyMeals";
 import UpdateMeal from "../Component/Form/UpdateMeal ";
 import MyReviews from "../Pages/DashBoard/Customer/MyReviews";
 import FavoriteMeals from "../Pages/DashBoard/Customer/MyFavoriteMeals";
+import ManageRequests from "../Pages/DashBoard/Admin/ManageRequest";
 
 export const router = createBrowserRouter([
   {
@@ -147,6 +148,10 @@ export const router = createBrowserRouter([
       {
         path: "manage-orders",
         element: <ManageOrders />,
+      },
+      {
+        path: "manage-requests",
+        element: <ManageRequests/>,
       },
     ],
   },

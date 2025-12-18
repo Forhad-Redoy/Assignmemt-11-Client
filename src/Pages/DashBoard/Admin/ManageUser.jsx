@@ -1,53 +1,60 @@
-
-import UserDataRow from "../../../Component/DashBoard/TableRows/UserDataRow"
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const ManageUsers = () => {
+  const { data: users = [], refetch } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users`
+      );
+      return data;
+    },
+  });
+
+  const makeFraud = async (id) => {
+    await axios.patch(
+      `${import.meta.env.VITE_API_URL}/users/fraud/${id}`
+    );
+    toast.success("User marked as fraud");
+    refetch();
+  };
+
   return (
-    <>
-      <div className='container mx-auto px-4 sm:px-8'>
-        <div className='py-8'>
-          <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
-            <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
-              <table className='min-w-full leading-normal'>
-                <thead>
-                  <tr>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Email
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Role
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Status
-                    </th>
+    <table className="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
 
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <UserDataRow />
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
+      <tbody>
+        {users.map((u) => (
+          <tr key={u._id}>
+            <td>{u.name || "N/A"}</td>
+            <td>{u.email}</td>
+            <td>{u.role}</td>
+            <td>{u.status}</td>
+            <td>
+              {u.role !== "admin" && u.status !== "fraud" && (
+                <button
+                  onClick={() => makeFraud(u._id)}
+                  className="btn btn-error btn-sm"
+                >
+                  Make Fraud
+                </button>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
 
-export default ManageUsers
+export default ManageUsers;
