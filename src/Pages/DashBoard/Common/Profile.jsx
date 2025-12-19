@@ -1,19 +1,20 @@
-import axios from "axios";
+
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../Component/LoadingSpinner";
 import cover from "../../../assets/chef.png";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Profile = () => {
   const { user } = useAuth();
-
+  const axiosSecure = useAxiosSecure();
   const { data: dbUser, isLoading, } = useQuery({
     queryKey: ["profileUser", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users/${user.email}`
+      const { data } = await axiosSecure.get(
+        `/users/${user.email}`
       );
       return data;
     },
@@ -21,7 +22,7 @@ const Profile = () => {
 
   const sendRequest = async (type) => {
   try {
-    await axios.post(`${import.meta.env.VITE_API_URL}/role-requests`, {
+    await axiosSecure.post(`/role-requests`, {
       userName: user?.displayName || dbUser?.name,
       userEmail: user?.email,
       requestType: type,

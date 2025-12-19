@@ -1,29 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ManageRequests = () => {
+    const axiosSecure = useAxiosSecure();
   const { data: requests = [], refetch } = useQuery({
     queryKey: ["roleRequests"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/role-requests`
+      const { data } = await axiosSecure.get(
+        `/role-requests`
       );
       return data;
     },
   });
 
   const approve = async (id) => {
-    await axios.patch(
-      `${import.meta.env.VITE_API_URL}/role-requests/approve/${id}`
+    await axiosSecure.patch(
+      `/role-requests/approve/${id}`
     );
     toast.success("Request approved");
     refetch();
   };
 
   const reject = async (id) => {
-    await axios.patch(
-      `${import.meta.env.VITE_API_URL}/role-requests/reject/${id}`
+    await axiosSecure.patch(
+      `/role-requests/reject/${id}`
     );
     toast.error("Request rejected");
     refetch();

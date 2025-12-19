@@ -1,32 +1,24 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
-import axios from "axios";
 import LoadingSpinner from "../../../Component/LoadingSpinner";
 import Container from "../../../Component/Shared/Container";
 import CustomerOrderDataCard from "../../../Component/Cards/CustomerOrderDataCard";
-// import CustomerOrderDataCard from "../../../Component/DashBoard/TableRows/CustomerOrderDataRow";
-// import useAuth from your auth hook
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
-
-const fetchUserOrders = async (email) => {
-  const res = await axios.get(
-    `${import.meta.env.VITE_API_URL}/my-orders/user/${email}`
-  );
+const fetchUserOrders = async (axiosSecure, email) => {
+  const res = await axiosSecure.get(`/my-orders/user/${email}`);
   return res.data;
 };
 
-// create-checkout-session  -> { url }
-const createCheckoutSession = async (orderId) => {
-  const res = await axios.post(
-    `${import.meta.env.VITE_API_URL}/create-checkout-session`,
-    { orderId }
-  );
-  return res.data; // { url }
+const createCheckoutSession = async (axiosSecure, orderId) => {
+  const res = await axiosSecure.post(`/create-checkout-session`, { orderId });
+  return res.data;
 };
 
-export default function MyOrders() {
+function MyOrders() {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   // Load user orders
   const {
@@ -36,13 +28,14 @@ export default function MyOrders() {
     error,
   } = useQuery({
     queryKey: ["orders", user?.email],
-    queryFn: () => fetchUserOrders(user.email),
+    queryFn: () => fetchUserOrders(axiosSecure, user.email),
     enabled: !!user?.email,
   });
 
   // Payment mutation
   const { mutateAsync: startPayment, isPending: isPaying } = useMutation({
-    mutationFn: createCheckoutSession,
+    mutationFn: (orderId) =>
+      createCheckoutSession(axiosSecure, orderId),
   });
 
   const handlePay = async (order) => {
@@ -60,8 +53,7 @@ export default function MyOrders() {
       if (!confirm.isConfirmed) return;
 
       const { url } = await startPayment(order._id);
-
-      window.location.href = url; // Stripe redirect
+      window.location.href = url;
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -98,3 +90,5 @@ export default function MyOrders() {
     </Container>
   );
 }
+
+export default MyOrders;

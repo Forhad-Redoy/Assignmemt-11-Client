@@ -3,16 +3,17 @@ import axios from "axios";
 import Container from "../Component/Shared/Container";
 import LoadingSpinner from "../Component/LoadingSpinner";
 import MealCard from "../Component/Cards/MealCard";
+import HeroBanner from "../Component/Home/Banner";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 // import MealCard from "../Component/Cards/MealCard";
 // import LoadingSpinner from "../Component/LoadingSpinner";
 
 const Home = () => {
+  const axiosSecure = useAxiosSecure();
   const { data: meals = [], isLoading } = useQuery({
     queryKey: ["dailyMeals"],
     queryFn: async () => {
-      const res = await axios(
-        `${import.meta.env.VITE_API_URL}/daily`
-      );
+      const res = await axiosSecure.get(`/daily`);
       return res.data;
     },
   });
@@ -21,6 +22,7 @@ const Home = () => {
 
   return (
     <Container>
+      <HeroBanner />
       <h2 className="text-2xl font-bold mb-6 text-center">
         Daily Meals
       </h2>

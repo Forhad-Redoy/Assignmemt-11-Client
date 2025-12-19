@@ -1,22 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const ManageUsers = () => {
+  const axiosSecure = useAxiosSecure();
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users`
-      );
+      const { data } = await axiosSecure.get(`/users`);
       return data;
     },
   });
 
   const makeFraud = async (id) => {
-    await axios.patch(
-      `${import.meta.env.VITE_API_URL}/users/fraud/${id}`
-    );
+    await axiosSecure.patch(`/users/fraud/${id}`);
     toast.success("User marked as fraud");
     refetch();
   };

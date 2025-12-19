@@ -24,6 +24,8 @@ import UpdateMeal from "../Component/Form/UpdateMeal ";
 import MyReviews from "../Pages/DashBoard/Customer/MyReviews";
 import FavoriteMeals from "../Pages/DashBoard/Customer/MyFavoriteMeals";
 import ManageRequests from "../Pages/DashBoard/Admin/ManageRequest";
+import AdminRoute from "./AdminRoute";
+import ChefRoute from "./ChefRoute";
 
 export const router = createBrowserRouter([
   {
@@ -83,7 +85,9 @@ export const router = createBrowserRouter([
         path: "add-meal",
         element: (
           <PrivateRoute>
-            <AddMeal />
+            <ChefRoute>
+              <AddMeal />
+            </ChefRoute>
           </PrivateRoute>
         ),
       },
@@ -92,7 +96,9 @@ export const router = createBrowserRouter([
         path: "my-meals",
         element: (
           <PrivateRoute>
-            <MyMeals />
+            <ChefRoute>
+              <MyMeals />
+            </ChefRoute>
           </PrivateRoute>
         ),
       },
@@ -108,7 +114,9 @@ export const router = createBrowserRouter([
         path: "manage-users",
         element: (
           <PrivateRoute>
-            <ManageUsers />
+            <AdminRoute>
+              <ManageUsers />
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -137,7 +145,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-         path: "my-favorite",
+        path: "my-favorite",
         element: (
           <PrivateRoute>
             <FavoriteMeals />
@@ -151,7 +159,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "manage-requests",
-        element: <ManageRequests/>,
+        element: (
+          <AdminRoute>
+            <ManageRequests />
+          </AdminRoute>
+        ),
       },
     ],
   },

@@ -2,32 +2,33 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-// import useAuth from "../hooks/useAuth";
-import axios from "axios";
 import Swal from "sweetalert2";
-// import LoadingSpinner from "../components/LoadingSpinner";
-// import Container from "../Component/Shared/Container";
+
 import useAuth from "../Hooks/useAuth";
+// import useAxiosSecure from "../Hooks/useAxiosSecure";
 import LoadingSpinner from "../Component/LoadingSpinner";
 import Container from "../Component/Shared/Container";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Order = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   // Redirect if user not logged in
   useEffect(() => {
     if (!user) navigate("/login");
-  }, [user]);
+  }, [user, navigate]);
 
   // Fetch meal details
   const { data: meal = {}, isLoading } = useQuery({
     queryKey: ["meal", id],
     queryFn: async () => {
-      const res = await axios(`${import.meta.env.VITE_API_URL}/meals/${id}`);
+      const res = await axiosSecure.get(`/meals/${id}`);
       return res.data;
     },
+    enabled: !!id,
   });
 
   const { register, handleSubmit, reset } = useForm();
@@ -41,7 +42,6 @@ const Order = () => {
     const quantity = Number(data.quantity);
     const totalPrice = price * quantity;
 
-    // Confirmation popup
     const confirm = await Swal.fire({
       title: "Confirm Your Order",
       text: `Your total price is $${totalPrice}. Do you want to confirm the order?`,
@@ -67,18 +67,15 @@ const Order = () => {
     };
 
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/orders`,
-        orderInfo
-      );
+      const res = await axiosSecure.post("/orders", orderInfo);
 
       if (res.data.insertedId) {
         Swal.fire("Success!", "Order placed successfully!", "success");
         reset();
-        navigate("/"); // redirect or order page
+        navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Swal.fire("Error!", "Something went wrong.", "error");
     }
   };
@@ -92,7 +89,6 @@ const Order = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-lg"
         >
-          {/* Meal Name */}
           <div>
             <label className="font-semibold">Meal Name</label>
             <input
@@ -103,7 +99,6 @@ const Order = () => {
             />
           </div>
 
-          {/* Price */}
           <div>
             <label className="font-semibold">Price</label>
             <input
@@ -114,7 +109,6 @@ const Order = () => {
             />
           </div>
 
-          {/* Quantity */}
           <div>
             <label className="font-semibold">Quantity</label>
             <input
@@ -126,7 +120,6 @@ const Order = () => {
             />
           </div>
 
-          {/* Chef ID */}
           <div>
             <label className="font-semibold">Chef ID</label>
             <input
@@ -137,7 +130,6 @@ const Order = () => {
             />
           </div>
 
-          {/* User Email */}
           <div>
             <label className="font-semibold">Your Email</label>
             <input
@@ -148,7 +140,6 @@ const Order = () => {
             />
           </div>
 
-          {/* Address */}
           <div className="md:col-span-2">
             <label className="font-semibold">Delivery Address</label>
             <textarea
@@ -158,7 +149,6 @@ const Order = () => {
             ></textarea>
           </div>
 
-          {/* Button */}
           <div className="md:col-span-2 flex justify-end">
             <button className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
               Confirm Order
