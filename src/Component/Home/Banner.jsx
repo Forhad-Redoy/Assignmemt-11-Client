@@ -1,6 +1,10 @@
+
 import { motion } from "framer-motion";
 
-const HeroBanner = ({meal}) => {
+
+const HeroBanner = () => {
+  
+
   return (
     <section className="bg-gradient-to-b from-orange-50 to-white">
       <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useParams, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import LoadingSpinner from "../Component/LoadingSpinner";
@@ -7,11 +6,13 @@ import Container from "../Component/Shared/Container";
 import Button from "../Component/Shared/Button";
 import ReviewSection from "../Component/ReviewSection";
 import FavoriteButton from "../Component/FavoriteButton";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const MealDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   // Redirect if not logged in
   if (!user) {
@@ -22,7 +23,7 @@ const MealDetails = () => {
   const { data: meal = {}, isLoading } = useQuery({
     queryKey: ["meal", id],
     queryFn: async () => {
-      const res = await axios(`${import.meta.env.VITE_API_URL}/meals/${id}`);
+      const res = await axiosSecure.get(`/meals/${id}`);
       return res.data;
     },
   });
@@ -55,7 +56,7 @@ const MealDetails = () => {
             <img
               src={foodImage}
               alt={foodName}
-              className="w-full rounded-xl shadow-lg"
+              className="w-fit rounded-xl shadow-lg"
             />
           </div>
 

@@ -77,7 +77,9 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <PrivateRoute>
-            <Statistics />
+            <AdminRoute>
+              <Statistics />
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -155,7 +157,11 @@ export const router = createBrowserRouter([
 
       {
         path: "manage-orders",
-        element: <ManageOrders />,
+        element: (
+          <ChefRoute>
+            <ManageOrders />
+          </ChefRoute>
+        ),
       },
       {
         path: "manage-requests",
