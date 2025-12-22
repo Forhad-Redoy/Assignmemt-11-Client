@@ -1,15 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import useAuth from "../../../Hooks/useAuth";
 import LoadingSpinner from "../../../Component/LoadingSpinner";
 import Container from "../../../Component/Shared/Container";
 import Swal from "sweetalert2";
 import ChefOrderCard from "../../../Component/Cards/ChefOrderCard";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 
 const ManageOrders = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const axiosSecure = useAxiosSecure();
 
   // ✅ IMPORTANT: you must have chefId for logged-in chef
   // If user.chefId is not available, fetch it from your DB by email and set it.
@@ -19,7 +20,7 @@ const ManageOrders = () => {
     queryKey: ["chef-orders", chefId],
     enabled: !!chefId,
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/chef-orders/${chefId}`);
+      const res = await axiosSecure.get(`/chef-orders/${chefId}`);
       return res.data;
     },
     // Optional: makes both chef & customer see updates without refresh
@@ -28,8 +29,8 @@ const ManageOrders = () => {
 
   const statusMutation = useMutation({
     mutationFn: async ({ orderId, status }) => {
-      const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/orders/${orderId}/status`,
+      const res = await axiosSecure.patch(
+        `/orders/${orderId}/status`,
         { status }
       );
       return res.data;

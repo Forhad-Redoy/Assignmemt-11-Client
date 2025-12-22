@@ -7,6 +7,7 @@ import avatarImg from "../../assets/placeholder.jpg";
 import logo from "../../assets/chef.png";
 import useAuth from "../../Hooks/useAuth";
 import Container from "./Container";
+import MyLink from "./MyLink";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -24,11 +25,12 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
               <ul className="menu menu-horizontal px-1">
                 <li>
-                  <Link to="/" className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">Home</Link>
+                  <MyLink to={'/'}>Home</MyLink>
                 </li>
                 <li>
-                  <Link to="/meals" className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">Meals</Link>
+                  <MyLink to={'/meals'}>Meals</MyLink>
                 </li>
+              
                 
                
               </ul>

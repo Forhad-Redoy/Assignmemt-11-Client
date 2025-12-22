@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
 import LoadingSpinner from "./LoadingSpinner";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { FaStar } from "react-icons/fa";
 
 const ReviewSection = ({ meal }) => {
   const { user } = useAuth();
@@ -42,12 +42,15 @@ const ReviewSection = ({ meal }) => {
     onSuccess: () => {
       setComment("");
       setRating(5);
+
       queryClient.invalidateQueries(["reviews", foodId]);
+      queryClient.invalidateQueries(["meal", foodId]); // ✅ refetch meal
+
       Swal.fire("Success!", "Review submitted successfully!", "success");
     },
   });
 
-  if (isLoading) return <LoadingSpinner/>;
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="mt-10">
@@ -60,7 +63,7 @@ const ReviewSection = ({ meal }) => {
         )}
 
         {reviews.map((r) => (
-          <div key={r._id} className="border p-4 rounded-xl bg-white">
+          <div key={r._id} className="shadow-lg p-4 rounded-xl bg-white">
             <div className="flex items-center gap-3">
               <img
                 src={r.reviewerImage}
@@ -75,28 +78,30 @@ const ReviewSection = ({ meal }) => {
               </div>
             </div>
 
-            <p className="mt-2">⭐ {r.rating} / 5</p>
-            <p className="mt-2">{r.comment}</p>
+            <p className="mt-2 flex items-center gap-1"><FaStar className="text-orange-400" /> {r.rating} / 5</p>
+            <p className="mt-2 font-medium">{r.comment}</p>
           </div>
         ))}
       </div>
 
       {/* Add Review */}
-      <div className="mt-6 border p-4 rounded-xl bg-white">
+      <div className="mt-6 shadow-xl p-4 rounded-xl bg-white">
         <h3 className="font-semibold mb-3">Give Review</h3>
 
         <select
           value={rating}
           onChange={(e) => setRating(Number(e.target.value))}
-          className="border p-2 rounded mb-2"
+          className="shadow-lg p-2 rounded mb-2"
         >
           {[5, 4, 3, 2, 1].map((n) => (
-            <option key={n} value={n}>{n}</option>
+            <option key={n} value={n}>
+              {n}
+            </option>
           ))}
         </select>
 
         <textarea
-          className="border w-full p-3 rounded"
+          className="border border-orange-400 w-full p-3 rounded"
           placeholder="Write your review..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}

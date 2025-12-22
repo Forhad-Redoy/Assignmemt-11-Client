@@ -1,148 +1,134 @@
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
-import { motion } from "framer-motion";
-
+const slides = [
+  {
+    title: "Smart Chef Matching",
+    desc: "AI-powered system connects you with the best local chefs.",
+    tag: "AI Engine",
+  },
+  {
+    title: "Live Meal Flow",
+    desc: "Meals prepared fresh and tracked in real time.",
+    tag: "Realtime",
+  },
+  {
+    title: "Trusted Home Kitchens",
+    desc: "Verified chefs delivering homemade quality food.",
+    tag: "Verified",
+  },
+];
 
 const HeroBanner = () => {
-  
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <section className="bg-gradient-to-b from-orange-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+    <section className="bg-gradient-to-b from-orange-50 to-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center">
+        
         {/* Left Content */}
         <div>
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 text-sm font-medium text-orange-700 bg-orange-100 px-4 py-2 rounded-full"
           >
-            🍽️ Homemade food from trusted chefs
+            🍳 Future of homemade food
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-5 text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
+            transition={{ delay: 0.1 }}
+            className="mt-6 text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
           >
-            Fresh homemade meals,
+            A smarter way to enjoy
             <br />
-            straight from local chefs
+            homemade meals
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 text-base md:text-lg text-gray-600 max-w-xl"
+            transition={{ delay: 0.2 }}
+            className="mt-4 text-lg text-gray-600 max-w-xl"
           >
-            Chef Bazaar connects you with skilled home chefs near you. Order
-            daily meals, enjoy real flavors, and eat with confidence.
+            Chef Bazaar is a next-generation platform connecting food lovers
+            with trusted home chefs using intelligent systems.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-7 flex flex-wrap items-center gap-3"
-          >
-            <button className="px-6 py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600 transition">
-              Browse Meals
-            </button>
-            <button className="px-6 py-3 rounded-xl border border-orange-300 text-orange-600 font-semibold hover:bg-orange-50 transition">
-              Become a Chef
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-8 flex items-center gap-6 text-sm text-gray-600"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              Fast delivery
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-              Verified chefs
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-orange-500" />
-              Homemade food
-            </div>
-          </motion.div>
         </div>
 
-        {/* Right Visual */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="relative"
-        >
-          {/* Floating glow shapes */}
+        {/* Right Futuristic Carousel */}
+        <div className="relative flex items-center justify-center">
+          
+          {/* Rotating Rings */}
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-10 -left-8 w-40 h-40 bg-orange-200 rounded-full blur-2xl opacity-70"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            className="absolute w-80 h-80 rounded-full border border-orange-300/40"
           />
           <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-12 -right-10 w-48 h-48 bg-orange-300 rounded-full blur-2xl opacity-60"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+            className="absolute w-60 h-60 rounded-full border border-orange-400/30"
           />
 
-          {/* Featured Meal Card */}
-          <div className="relative bg-white border border-orange-200 rounded-3xl shadow-xl p-6 md:p-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Today’s Special</p>
-                <h3 className="text-xl font-bold text-gray-900 mt-1">
-                  Chicken Biryani
-                </h3>
-              </div>
-              <span className="px-3 py-1 text-sm font-semibold rounded-full bg-orange-500 text-white">
-                ⭐ 4.9
-              </span>
-            </div>
+          {/* Carousel Card */}
+          <div className="relative z-10 w-full max-w-sm p-6 rounded-3xl backdrop-blur-xl bg-white/70 border border-orange-200 shadow-2xl overflow-hidden">
+            
+            {/* Neon Scan Line */}
+            <motion.div
+              animate={{ y: ["0%", "100%", "0%"] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute left-0 top-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-400 to-transparent"
+            />
 
-            <div className="mt-5 w-full h-44 rounded-2xl bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-              {/* Replace with actual image */}
-              <p className="text-orange-700 font-medium">
-                Meal Image
-              </p>
-            </div>
-
-            <div className="mt-5 flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Price</p>
-                <p className="text-lg font-bold text-gray-900">$11.50</p>
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-5 py-2.5 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-600 transition"
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.5 }}
+                className="text-center"
               >
-                Order Now
-              </motion.button>
-            </div>
+                <span className="inline-block mb-3 px-3 py-1 text-xs rounded-full bg-orange-100 text-orange-700">
+                  {slides[index].tag}
+                </span>
 
-            <div className="mt-5 flex flex-wrap gap-2">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-50 text-orange-700">
-                30 min delivery
-              </span>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-50 text-orange-700">
-                Freshly cooked
-              </span>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-orange-50 text-orange-700">
-                Home chef
-              </span>
+                <h3 className="text-xl font-bold text-gray-900">
+                  {slides[index].title}
+                </h3>
+
+                <p className="mt-2 text-sm text-gray-600">
+                  {slides[index].desc}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Progress Dots */}
+            <div className="mt-6 flex justify-center gap-2">
+              {slides.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-2 w-2 rounded-full transition ${
+                    i === index
+                      ? "bg-orange-500"
+                      : "bg-orange-200"
+                  }`}
+                />
+              ))}
             </div>
           </div>
-        </motion.div>
+        </div>
+
       </div>
     </section>
   );

@@ -27,7 +27,7 @@ const FavoriteMeals = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Favorite Meals</h2>
+      <h2 className="text-4xl font-semibold text-center my-4">Favorite Meals</h2>
 
       <table className="table w-full bg-white">
         <thead>

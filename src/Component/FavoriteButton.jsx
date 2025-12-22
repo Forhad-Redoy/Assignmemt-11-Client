@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import { useMutation } from "@tanstack/react-query";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import useAuth from "../hooks/useAuth";
+import { MdFavorite } from "react-icons/md";
 
 const FavoriteButton = ({ meal }) => {
   const { user } = useAuth();
@@ -31,8 +32,10 @@ const FavoriteButton = ({ meal }) => {
     <button
       onClick={() => mutate()}
       disabled={isPending}
-      className="bg-lime-600 text-white px-4 py-2 rounded"
+      
+      className="bg-pink-500 hover:bg-pink-600 flex items-center gap-2 text-white px-4 py-2 rounded"
     >
+      <MdFavorite/>
       {isPending ? "Adding..." : "Favorite"}
     </button>
   );

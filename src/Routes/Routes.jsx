@@ -10,7 +10,6 @@ import DashboardLayout from "../Layouts/DashBoardLayout";
 import Profile from "../Pages/DashBoard/Common/Profile";
 import Statistics from "../Pages/DashBoard/Common/Statistics";
 import AddMeal from "../Pages/DashBoard/Chef/AddMeal";
-import MyInventory from "../Pages/DashBoard/Chef/MyInventory";
 import ManageUsers from "../Pages/DashBoard/Admin/ManageUser";
 import ManageOrders from "../Pages/DashBoard/Chef/ManageOrder";
 import Meals from "../Pages/Meals";
@@ -57,10 +56,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "/payment-success",
-        element: <PaymentSuccessPage />,
-      },
+     
     ],
   },
   { path: "/login", element: <Login /> },
@@ -77,9 +73,7 @@ export const router = createBrowserRouter([
         index: true,
         element: (
           <PrivateRoute>
-            <AdminRoute>
-              <Statistics />
-            </AdminRoute>
+            <Statistics />
           </PrivateRoute>
         ),
       },
@@ -137,6 +131,10 @@ export const router = createBrowserRouter([
             <MyOrders />
           </PrivateRoute>
         ),
+      },
+       {
+        path: "/payment-success",
+        element: <PaymentSuccessPage />,
       },
       {
         path: "my-reviews",

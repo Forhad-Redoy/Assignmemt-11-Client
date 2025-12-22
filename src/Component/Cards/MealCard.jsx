@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 const MealCard = ({ meal }) => {
-  const { _id, chefId, chefName, price, foodImage, deliveryArea } =
+  const { _id, chefId, chefName, price, foodImage, deliveryArea,rating } =
     meal || {};
   // console.log(meal);
   return (
@@ -22,7 +22,7 @@ const MealCard = ({ meal }) => {
 
         <div className="flex justify-between">
           <h2 className="font-semibold">Chef ID : {chefId}</h2>
-          <h3 className="font-semibold">4.9</h3>
+          <h3 className="font-semibold">{rating}</h3>
         </div>
         <div className="text-xs font-semibold text-lime-500">
           {deliveryArea}

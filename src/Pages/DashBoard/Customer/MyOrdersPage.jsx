@@ -77,6 +77,7 @@ function MyOrders() {
 
   return (
     <Container>
+        <h1 className="text-center text-4xl font-semibold my-4">My Orders</h1>
       <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
         {orders.map((order) => (
           <CustomerOrderDataCard

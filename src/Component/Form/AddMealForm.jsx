@@ -1,13 +1,14 @@
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../utils";
 import { useMutation } from "@tanstack/react-query";
 import { TbFidgetSpinner } from "react-icons/tb";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const AddMealForm = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();
 
   //  const res = await axios.post(
@@ -34,8 +35,8 @@ const AddMealForm = () => {
         createdAt: new Date(),
       };
 
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/meals`,
+      const { data } = await axiosSecure.post(
+        `/meals`,
         mealData
       );
 

@@ -16,11 +16,7 @@ const ChefOrderCard = ({ order, isUpdating, onCancel, onAccept, onDeliver }) => 
   const isDelivered = orderStatus === "delivered";
   const isAccepted = orderStatus === "accepted";
 
-  // Button rules:
-  // - cancelled => all disabled
-  // - accepted => only Deliver enabled
-  // - delivered => all disabled
-  // - pending => Cancel & Accept enabled, Deliver disabled
+
   const cancelDisabled = isUpdating || isCancelled || isDelivered || isAccepted; // after accept, cancel disabled
   const acceptDisabled = isUpdating || isCancelled || isDelivered || isAccepted;
   const deliverDisabled = isUpdating || isCancelled || isDelivered || !isAccepted;

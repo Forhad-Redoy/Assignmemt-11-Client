@@ -7,6 +7,7 @@ import Button from "../Component/Shared/Button";
 import ReviewSection from "../Component/ReviewSection";
 import FavoriteButton from "../Component/FavoriteButton";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { FaStar } from "react-icons/fa";
 
 const MealDetails = () => {
   const { id } = useParams();
@@ -72,8 +73,8 @@ const MealDetails = () => {
               <span className="font-semibold">Price:</span> ${price}
             </p>
 
-            <p className="text-lg">
-              <span className="font-semibold">Rating:</span> ⭐ {rating}
+            <p className="text-lg flex items-center gap-1">
+              <span className="font-semibold">Rating:</span> <FaStar className="text-orange-400"/> {rating}
             </p>
 
             <p className="text-lg">
@@ -101,11 +102,12 @@ const MealDetails = () => {
             <div className="pt-5">
               <Button onClick={handleOrder} label="Order Now" />
             </div>
+            <FavoriteButton meal={meal}/>
           </div>
         </div>
-      </div>
-      <FavoriteButton meal={meal}/>
       <ReviewSection meal={meal}/>
+      </div>
+      
     </Container>
   );
 };

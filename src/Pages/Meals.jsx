@@ -1,10 +1,10 @@
-
 import React, { useState, useMemo } from "react";
 import Container from "../Component/Shared/Container";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../Component/LoadingSpinner";
 import MealCard from "../Component/Cards/MealCard";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import Reveal from "./Reveal";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -41,9 +41,10 @@ const Meals = () => {
   return (
     <Container>
       {/* Header + Sort */}
-      <div className="flex flex-col md:flex-row justify-between items-center my-6 gap-4">
-        <h1 className="text-4xl font-semibold">All Meals</h1>
 
+      <h1 className="text-4xl text-center font-semibold"><span className="text-orange-500">All</span> Meals</h1>
+
+      <div className="flex justify-end my-3">
         <button
           onClick={() => {
             setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -57,8 +58,10 @@ const Meals = () => {
 
       {/* Meals Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedMeals.map((meal) => (
-          <MealCard key={meal._id} meal={meal} />
+        {paginatedMeals.map((meal, index) => (
+          <Reveal key={meal._id} delay={index * 0.1}>
+            <MealCard meal={meal} />
+          </Reveal>
         ))}
       </div>
 
@@ -78,9 +81,7 @@ const Meals = () => {
               key={num}
               onClick={() => setCurrentPage(num + 1)}
               className={`px-3 py-1 border rounded ${
-                currentPage === num + 1
-                  ? "bg-orange-500 text-white"
-                  : ""
+                currentPage === num + 1 ? "bg-orange-500 text-white" : ""
               }`}
             >
               {num + 1}
@@ -101,4 +102,3 @@ const Meals = () => {
 };
 
 export default Meals;
-

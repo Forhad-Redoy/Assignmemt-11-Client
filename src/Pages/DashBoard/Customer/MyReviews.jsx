@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 // import useAxiosSecure from "../hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { FaStar } from "react-icons/fa";
 // import useAuth from "../hooks/useAuth";
 
 const MyReviews = () => {
@@ -38,22 +39,41 @@ const MyReviews = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">My Reviews</h2>
+    <div className="px-4 md:px-8 py-6">
+      <h2 className="text-3xl md:text-4xl text-center font-semibold mb-8">
+        My Reviews
+      </h2>
 
-      {reviews.map((r) => (
-        <div key={r._id} className="border p-4 rounded-xl bg-white mb-3">
-          <p className="font-semibold">{r.mealName}</p>
-          <p>⭐ {r.rating}</p>
-          <p>{r.comment}</p>
-          <button
-            onClick={() => handleDelete(r._id)}
-            className="mt-2 bg-red-600 text-white px-3 py-1 rounded"
-          >
-            Delete
-          </button>
+      {reviews.length === 0 ? (
+        <p className="text-center text-gray-500">No reviews found.</p>
+      ) : (
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {reviews.map((r) => (
+            <div
+              key={r._id}
+              className="p-5 shadow-lg rounded-xl text-center bg-white hover:shadow-xl transition"
+            >
+              <p className="font-semibold text-lg mb-1">{r.mealName}</p>
+
+              <p className="flex items-center justify-center gap-2 text-orange-500 mb-2">
+                <FaStar />
+                <span className="font-medium">{r.rating}</span>
+              </p>
+
+              <p className="text-gray-600  mb-4">
+                {r.comment}
+              </p>
+
+              <button
+                onClick={() => handleDelete(r._id)}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 };

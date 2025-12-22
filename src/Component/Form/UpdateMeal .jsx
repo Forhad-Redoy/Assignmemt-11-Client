@@ -11,6 +11,7 @@ const UpdateMeal = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm();
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const loadMeal = async () => {
@@ -62,10 +63,7 @@ const UpdateMeal = () => {
         chefId: formData.chefId,
       };
 
-      await axios.patch(
-        `${import.meta.env.VITE_API_URL}/meals/${id}`,
-        updatedMeal
-      );
+      await axiosSecure.patch(`/meals/${id}`, updatedMeal);
 
       toast.success("Meal updated successfully!");
       navigate("/dashboard/my-meals");
